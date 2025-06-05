@@ -4,7 +4,7 @@ export type TReservation = {
     user_id: string;
     initial_date: Date;
     final_date: Date;
-    //time_use: number;
+    
     
 
     

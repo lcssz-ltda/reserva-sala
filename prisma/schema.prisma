@@ -1,0 +1,47 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// Defina seus modelos aqui, por exemplo:
+model Users {
+  user_id       String         @id @default(uuid())
+  email         String         @unique
+  name          String
+  reservations  Reservations[] // Relação com as reservas
+}
+
+model Rooms {
+  room_id       String         @id @default(uuid())
+  name          String
+  location      String
+  reservations  Reservations[] // Relação com as reservas
+}
+
+model Reservations {
+  reservation_id String   @id @default(uuid())
+  room_id       String
+  user_id       String
+  initial_date  DateTime
+  final_date    DateTime
+  room          Rooms    @relation(fields: [room_id], references: [room_id])
+  user          Users    @relation(fields: [user_id], references: [user_id])
+
+  @@index([room_id, initial_date, final_date]) // Índice para otimizar verificações de conflito
+  @@index([user_id]) // Índice para otimizar consultas por usuário
+}
+
+
+
+
+
+
+
+
+

@@ -7,26 +7,26 @@ import { CreateUserDto } from "./dto/create-user.dto";
 export class UsersController {
     constructor(private readonly usersService: UsersService) { }
     @Get()
-    getUsers(): TUser[] {
-        return this.usersService.getUsers();
+    async getUsers(): Promise<TUser[]> {
+        return await this.usersService.getUsers();
     }
 
 
     @Get('/find')
-    getUserMail(@Query('email') email: string): TUser {
+    async getUserMail(@Query('email') email: string): Promise<TUser> {
         console.log("rota do email", email);
-        return this.usersService.getUserMail(email);
+        return await this.usersService.getUserMail(email);
     }
 
     @Get(':id')
-    getUser(@Param('id') id: string): TUser {
+    async getUser(@Param('id') id: string): Promise<TUser> {
         console.log("rota do ID", id);
-        return this.usersService.getUser(id);
+        return await this.usersService.getUser(id);
     }
 
     @Post()
-    createUser(@Body() user: CreateUserDto): TUser {
-        return this.usersService.createUser(user);
+    async createUser(@Body() user: CreateUserDto): Promise<TUser> {
+        return await this.usersService.createUser(user);
     }
     
 }

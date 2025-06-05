@@ -15,24 +15,24 @@ export class ReservationsController {
     
     
     @Get('available-rooms')
-    getAvailableRooms(): TRoom[] {
-        return this.reservationsService.getAvailableRooms()
+    async getAvailableRooms(): Promise<TRoom[]> {
+        return await this.reservationsService.getAvailableRooms()
     }
 
 
     @Get(':user_id')
-    getReservationsByUserId(@Param('user_id') user_id: string): TReservation[] {
-        return this.reservationsService.getReservationsByUserId(user_id)
+    async getReservationsByUserId(@Param('user_id') user_id: string): Promise<TReservation[]> {
+        return await this.reservationsService.getReservationsByUserId(user_id)
      
         
     }
     @Get(':room_id')
-    getReservationsByRoomId(@Param('room_id') room_id: string): TReservation[] {
-        return this.reservationsService.getReservationsByRoomId(room_id)
+    async getReservationsByRoomId(@Param('room_id') room_id: string): Promise<TReservation[]> {
+        return await this.reservationsService.getReservationsByRoomId(room_id)
     }
 
     @Get()
-    getReservations(@Query('user_id') user_id: string, @Query('room_id') room_id: string): TReservation[] {
+    async getReservations(@Query('user_id') user_id: string, @Query('room_id') room_id: string): Promise<TReservation[]> {
         const filters: TGetReservations = {
             user_id,
             room_id
@@ -42,10 +42,10 @@ export class ReservationsController {
 
 
     @Post()
-    createReservation(@Body() reservation: CreateReservationDto): TReservation {
+    async createReservation(@Body() reservation: CreateReservationDto): Promise<TReservation> {
         console.log(reservation);
 
-        const response = this.reservationsService.createReservation(reservation);
+        const response = await this.reservationsService.createReservation(reservation);
         
         return response;
     }

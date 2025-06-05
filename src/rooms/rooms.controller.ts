@@ -10,14 +10,14 @@ export class RoomsController {
     constructor(private readonly roomsService: RoomsService) { }
 
     @Get()
-    getRooms(): TRoom[] {
-        return this.roomsService.getRooms();
+    async getRooms(): Promise<TRoom[]> {
+        return await this.roomsService.getRooms();
     }
 
 
     @Post()
-    createRoom(@Body() room: CreateRoomDto): TRoom {
-        return this.roomsService.createRoom(room);
+    async createRoom(@Body() room: CreateRoomDto): Promise<TRoom> {
+        return await this.roomsService.createRoom(room);
     }
     
     
