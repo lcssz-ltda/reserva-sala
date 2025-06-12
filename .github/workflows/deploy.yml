@@ -11,7 +11,7 @@ on:
 jobs:
   # Nome do nosso job
   build-and-deploy:
-    # A mágica acontece aqui: este job vai rodar no nosso servidor!
+    
     runs-on: self-hosted
 
     steps:
