@@ -1,0 +1,45 @@
+# Nome do workflow que aparecerá na aba "Actions" do GitHub
+name: Deploy to EC2
+
+# Gatilho: o workflow roda quando houver um push na branch 'main'
+on:
+  push:
+    branches: [ "master" ]
+  # Permite também rodar este workflow manualmente pela interface do GitHub
+  workflow_dispatch:
+
+jobs:
+  # Nome do nosso job
+  build-and-deploy:
+    # A mágica acontece aqui: este job vai rodar no nosso servidor!
+    runs-on: self-hosted
+
+    steps:
+      # 1. Pega o código do seu repositório para dentro do runner
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      # 2. Faz login no Docker Hub usando os secrets que configuramos
+      - name: Login no Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 3. Builda a imagem Docker e envia (push) para o Docker Hub
+      - name: Build e Push da Imagem Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # IMPORTANTE: Substitua com seu usuário e nome do repositório no Docker Hub
+          tags: lcsszltda/app:latest
+
+      # 4. Faz o deploy no servidor usando o Docker Compose
+      - name: Deploy com Docker Compose
+        run: |
+          docker compose pull
+          docker compose up -d
+
+
+

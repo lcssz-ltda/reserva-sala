@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  app:
+    #image: SEU_REGISTRO/SUA_APP:latest
+    image: lcsszltda/app:latest
+    build: .
+    container_name: sala_reserva_app
+    ports:
+      - "80:3000"
+    volumes:
+      - ./prisma:/app/prisma # persiste o banco SQLite
+    environment:
+      - NODE_ENV=production
+    restart: always
+
+
+     # Aqui você pode adicionar variáveis de ambiente se precisar
+    # environment:
+    #   - DATABASE_URL=...
+    #   - JWT_SECRET=...
+
