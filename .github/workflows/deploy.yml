@@ -48,17 +48,15 @@ jobs:
           # IMPORTANTE: Substitua com seu usuário e nome do repositório no Docker Hub
           tags: lcsszltda/app:latest
 
-      # 4. Cria o arquivo .env com as variáveis de ambiente
-      - name: Criar arquivo .env
-        if: github.event.pull_request.merged == true
-        run: |
-          echo "API_KEY=${{ secrets.API_KEY }}" > .env
-          echo "Arquivo .env criado com sucesso!"
-
-      # 5. Faz o deploy no servidor usando o Docker Compose
+      # 4. Faz o deploy no servidor usando o Docker Compose
       - name: Deploy com Docker Compose
         if: github.event.pull_request.merged == true
         run: |
+          # Cria o arquivo .env no servidor antes do deploy
+          echo "API_KEY=${{ secrets.API_KEY }}" > .env
+          echo "Arquivo .env criado no servidor com sucesso!"
+          
+          # Faz o deploy
           docker compose pull
           docker compose up -d
 
