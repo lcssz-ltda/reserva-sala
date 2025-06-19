@@ -7,10 +7,11 @@ import { ReservationsModule } from './reservations/reservations.module';
 import { ApiKeyAuthModule } from './api-key-auth/api-key-auth.module';
 import { ApiKeyGuard } from './api-key-auth/api-key/api-key.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { CronModule } from './cron/cron.module';
 
 
 @Module({
-  imports: [UsersModule, RoomsModule, ReservationsModule, ApiKeyAuthModule],
+  imports: [UsersModule, RoomsModule, ReservationsModule, ApiKeyAuthModule, CronModule],
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_GUARD, // Use o token APP_GUARD
